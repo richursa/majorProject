@@ -25,11 +25,24 @@ func GetClient() *mongo.Client {
 	}
 	return client
 }
-
+func InsertBlockIntoDB(client *mongo.Client, block blockchain.Block) interface{} {
+	collection := client.Database(database).Collection(mongoCollection)
+	insertResult, err := collection.InsertOne(context.TODO(), block)
+	if err != nil {
+		log.Fatalln("Error on inserting a new Block", err)
+	}
+	return insertResult.InsertedID
+}
 func ReturnBlockFromDB(client *mongo.Client, filter bson.M) blockchain.Block {
 	var b blockchain.Block
 	collection := client.Database(database).Collection(mongoCollection)
 	documentReturned := collection.FindOne(context.TODO(), filter)
 	documentReturned.Decode(&b)
 	return b
+}
+
+func ReturnCount(client *mongo.Client) int64 {
+	collection := client.Database(database).Collection(mongoCollection)
+	count, _ := collection.CountDocuments(context.TODO(), bson.M{})
+	return count
 }

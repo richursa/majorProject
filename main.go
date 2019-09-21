@@ -1,9 +1,13 @@
 package main
 
-import "./blockchain"
+import (
+	"./db"
+	"go.mongodb.org/mongo-driver/bson"
+)
 
 func main() {
-	richu := blockchain.Block{0, 2, "a", "a", "a", 5}
-	secondBlock := blockchain.NewBlock(richu, "hello", "0000")
-	println(secondBlock.BlockID)
+	client := db.GetClient()
+	block := db.ReturnBlockFromDB(client, bson.M{})
+	println(block.Data)
+
 }

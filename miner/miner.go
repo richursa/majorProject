@@ -8,14 +8,25 @@ import (
 	"strconv"
 
 	"../blockchain"
+	"../db"
 )
 
 var peerlist = []string{"127.0.0.1"}
+var client = db.GetClient()
 
-/*func RequestBlock() {
+func RequestBlock() {
 	client := db.GetClient()
 	localCount := db.GetCount(client)
-}*/
+	for i := 0; i < len(peerlist); i++ {
+		peerCount := GetBlockCountFromPeer(peerlist[i])
+		if peerCount > localCount {
+			for j := localCount + 1; j <= peerCount; j++ {
+				block := GetBlockFromPeer(peerlist[i], j)
+				db.InsertBlockIntoDB(client, block)
+			}
+		}
+	}
+}
 func GetBlockCountFromPeer(address string) int64 {
 	address = address + "/api/getCount"
 	resp, err := http.Get(address)

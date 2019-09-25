@@ -6,14 +6,16 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"../blockchain"
 	"../db"
 )
 
-var peerlist = []string{"127.0.0.1"}
+var peerlist = []string{"http://127.0.0.1/"}
 var client = db.GetClient()
 
+//RequestBlock : request a block from peers and add block to chain
 func RequestBlock() {
 	client := db.GetClient()
 	localCount := db.GetCount(client)
@@ -22,11 +24,18 @@ func RequestBlock() {
 		if peerCount > localCount {
 			for j := localCount + 1; j <= peerCount; j++ {
 				block := GetBlockFromPeer(peerlist[i], j)
+				//check if block is valid before approving it into db"
 				db.InsertBlockIntoDB(client, block)
 			}
 		}
+		if i == len(peerlist)-1 {
+			time.Sleep(time.Second * 10)
+			i = 0
+		}
 	}
 }
+
+//GetBlockCountFromPeer : get count of number of blocks a peer has
 func GetBlockCountFromPeer(address string) int64 {
 	address = address + "/api/getCount"
 	resp, err := http.Get(address)
@@ -48,6 +57,7 @@ func GetBlockCountFromPeer(address string) int64 {
 	return count
 }
 
+//GetBlockFromPeer : get a block with given blockid from peer
 func GetBlockFromPeer(address string, blockID int64) blockchain.Block {
 	address = address + "/api/getBlock/"
 	address = address + strconv.FormatInt(blockID, 10)

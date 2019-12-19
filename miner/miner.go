@@ -11,6 +11,7 @@ import (
 	"../blockchain"
 	"../db"
 	"../peerlist"
+	"../verification"
 )
 
 var client = db.GetClient()
@@ -25,7 +26,11 @@ func RequestBlock() {
 			for j := localCount + 1; j <= peerCount; j++ {
 				block := GetBlockFromPeer(peerlist.Peerlist[i], j)
 				//check if block is valid before approving it into db"
-				db.InsertBlockIntoDB(client, block)
+				if verification.VerifyBlock(block) {
+					db.InsertBlockIntoDB(client, block)
+				} else {
+					log.Println("invalid block received from peer ", peerlist.Peerlist[i])
+				}
 			}
 		}
 		if i == len(peerlist.Peerlist)-1 {

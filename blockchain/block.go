@@ -6,7 +6,7 @@ import (
 	"crypto/rsa"
 	"crypto/sha256"
 	"encoding/hex"
-	"fmt"
+	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -50,15 +50,15 @@ func computeHashWithProofOfWork(data string, difficulty string) (int64, string) 
 }
 
 //NewBlock : creates a new block from a previous block and given data and difficulty
-func NewBlock(block Block, data string, difficulty string) Block {
+func NewBlock(block Block, data string) Block {
 	t := time.Now().Unix()
 	BlockID := block.BlockID
 	BlockID++
-	nonce, hash := computeHashWithProofOfWork(intToStr(BlockID)+intToStr(t)+data+block.Hash, difficulty)
+	nonce, hash := computeHashWithProofOfWork(intToStr(BlockID)+intToStr(t)+data+block.Hash, nodeinfo.Difficulty)
 	hashed := sha256.Sum256([]byte(data))
 	signature, err := rsa.SignPKCS1v15(rand.Reader, nodeinfo.PrivateKey, crypto.SHA256, hashed[:])
 	if err != nil {
-		fmt.Println(err)
+		log.Fatalln(err)
 	}
 	return Block{BlockID, t, data, signature, nodeinfo.NodeID, block.Hash, hash, nonce}
 }

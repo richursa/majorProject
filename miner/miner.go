@@ -12,7 +12,7 @@ import (
 	"../db"
 )
 
-var peerlist = []string{"http://127.0.0.1/"}
+var peerlist = []string{"http://localhost"}
 var client = db.GetClient()
 
 //RequestBlock : request a block from peers and add block to chain

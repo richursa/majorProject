@@ -10,25 +10,25 @@ import (
 
 	"../blockchain"
 	"../db"
+	"../peerlist"
 )
 
-var peerlist = []string{"http://localhost"}
 var client = db.GetClient()
 
 //RequestBlock : request a block from peers and add block to chain
 func RequestBlock() {
 	client := db.GetClient()
 	localCount := db.GetCount(client)
-	for i := 0; i < len(peerlist); i++ {
-		peerCount := GetBlockCountFromPeer(peerlist[i])
+	for i := 0; i < len(peerlist.Peerlist); i++ {
+		peerCount := GetBlockCountFromPeer(peerlist.Peerlist[i])
 		if peerCount > localCount {
 			for j := localCount + 1; j <= peerCount; j++ {
-				block := GetBlockFromPeer(peerlist[i], j)
+				block := GetBlockFromPeer(peerlist.Peerlist[i], j)
 				//check if block is valid before approving it into db"
 				db.InsertBlockIntoDB(client, block)
 			}
 		}
-		if i == len(peerlist)-1 {
+		if i == len(peerlist.Peerlist)-1 {
 			time.Sleep(time.Second * 10)
 			i = 0
 		}

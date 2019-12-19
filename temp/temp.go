@@ -6,6 +6,7 @@ import (
 	"crypto/rsa"
 	"crypto/sha256"
 	"fmt"
+	"reflect"
 
 	"../cryptorsa"
 )
@@ -16,6 +17,7 @@ func main() {
 	message := []byte("richu has completed btech")
 	hashed := sha256.Sum256(message)
 	signature, _ := rsa.SignPKCS1v15(rand.Reader, pvtKey, crypto.SHA256, hashed[:])
+	fmt.Println(reflect.TypeOf(signature))
 	pvtKey = cryptorsa.GetRsaPrivateKeyFromPem("richu.pem")
 	err := rsa.VerifyPKCS1v15(&pvtKey.PublicKey, crypto.SHA256, hashed[:], signature)
 	if err != nil {

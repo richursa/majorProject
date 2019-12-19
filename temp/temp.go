@@ -1,16 +1,26 @@
 package main
 
 import (
-	"encoding/json"
+	"crypto"
+	"crypto/rand"
+	"crypto/rsa"
+	"crypto/sha256"
 	"fmt"
 
-	"../miner"
+	"../cryptorsa"
 )
 
 func main() {
-	count := miner.GetBlockCountFromPeer("http://localhost:8080")
-	fmt.Println(count)
-	block := miner.GetBlockFromPeer("http://localhost:8080", 1)
-	j, _ := json.Marshal(block)
-	fmt.Println(string(j))
+	pvtKey, _ := rsa.GenerateKey(rand.Reader, 2048)
+	cryptorsa.WriteRsaPrivateKeyAsPem(pvtKey, "richu.pem")
+	message := []byte("richu has completed btech")
+	hashed := sha256.Sum256(message)
+	signature, _ := rsa.SignPKCS1v15(rand.Reader, pvtKey, crypto.SHA256, hashed[:])
+	pvtKey = cryptorsa.GetRsaPrivateKeyFromPem("richu.pem")
+	err := rsa.VerifyPKCS1v15(&pvtKey.PublicKey, crypto.SHA256, hashed[:], signature)
+	if err != nil {
+		fmt.Println("signature not valid")
+	} else {
+		fmt.Println("signature valid")
+	}
 }

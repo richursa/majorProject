@@ -13,7 +13,6 @@ func main() {
 	lastBlockID := db.GetCount(mongoClient)
 	var lastBlock blockchain.Block
 	if lastBlockID == 0 {
-
 		lastBlock.BlockID = 0
 	} else {
 		lastBlock = db.GetBlockFromDB(mongoClient, bson.M{"blockid": lastBlockID})
@@ -22,6 +21,6 @@ func main() {
 	fmt.Println("Enter the data for new block")
 	var data string
 	fmt.Scanln(&data)
-	newBlock := blockchain.NewBlock(lastBlock, data, "0000")
+	newBlock := blockchain.NewBlock(lastBlock, data)
 	_ = db.InsertBlockIntoDB(mongoClient, newBlock)
 }

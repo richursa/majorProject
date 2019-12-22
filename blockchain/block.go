@@ -27,13 +27,13 @@ type Block struct {
 }
 
 //return sha256 hash of the given string
-func calcHash(data string) string {
+func CalcHash(data string) string {
 	hashed := sha256.Sum256([]byte(data))
 	return hex.EncodeToString(hashed[:])
 }
 
 //convert a integer to its string equivalent
-func intToStr(num int64) string {
+func IntToStr(num int64) string {
 	return strconv.FormatInt(num, 10)
 }
 
@@ -41,7 +41,7 @@ func intToStr(num int64) string {
 func computeHashWithProofOfWork(data string, difficulty string) (int64, string) {
 	nonce := int64(0)
 	for {
-		hash := calcHash(intToStr(nonce) + data)
+		hash := CalcHash(IntToStr(nonce) + data)
 		if strings.HasPrefix(hash, difficulty) {
 			return nonce, hash
 		}
@@ -54,11 +54,11 @@ func NewBlock(block Block, data string) Block {
 	t := time.Now().Unix()
 	BlockID := block.BlockID
 	BlockID++
-	nonce, hash := computeHashWithProofOfWork(intToStr(BlockID)+intToStr(t)+data+block.Hash, nodeinfo.Difficulty)
 	hashed := sha256.Sum256([]byte(data))
 	signature, err := rsa.SignPKCS1v15(rand.Reader, nodeinfo.PrivateKey, crypto.SHA256, hashed[:])
 	if err != nil {
 		log.Fatalln(err)
 	}
+	nonce, hash := computeHashWithProofOfWork(IntToStr(BlockID)+IntToStr(t)+data+string(signature)+nodeinfo.NodeID+block.Hash, nodeinfo.Difficulty)
 	return Block{BlockID, t, data, signature, nodeinfo.NodeID, block.Hash, hash, nonce}
 }

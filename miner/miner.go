@@ -30,6 +30,7 @@ func RequestBlock() {
 					db.InsertBlockIntoDB(client, block)
 				} else {
 					log.Println("invalid block received from peer ", peerlist.Peerlist[i])
+					break
 				}
 			}
 		}

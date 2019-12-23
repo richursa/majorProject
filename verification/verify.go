@@ -15,7 +15,7 @@ import (
 func VerifyBlock(block blockchain.Block) bool {
 	mongoClient := db.GetClient()
 	prevBlock := db.GetBlockFromDB(mongoClient, bson.M{"blockid": db.GetCount(mongoClient)})
-	toBeHashed := blockchain.IntToStr(block.BlockID) + blockchain.IntToStr(block.Time) + block.Data + string(block.Signature) + block.NodeID
+	toBeHashed := blockchain.IntToStr(block.BlockID) + blockchain.IntToStr(block.Time) + block.Data + string(block.Signature) + block.NodeID + block.Prev
 	if block.BlockID == 1 {
 		//needs fix
 		return VerifySignature(block)

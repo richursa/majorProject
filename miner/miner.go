@@ -19,19 +19,22 @@ var client = db.GetClient()
 //RequestBlock : request a block from peers and add block to chain
 func RequestBlock() {
 	client := db.GetClient()
-	localCount := db.GetCount(client)
+
 	for i := 0; i < len(peerlist.Peerlist); i++ {
 		peerCount := GetBlockCountFromPeer(peerlist.Peerlist[i])
+		localCount := db.GetCount(client)
 		if peerCount > localCount {
 			for j := localCount + 1; j <= peerCount; j++ {
 				block := GetBlockFromPeer(peerlist.Peerlist[i], j)
 				//check if block is valid before approving it into db"
 				if verification.VerifyBlock(block) {
 					db.InsertBlockIntoDB(client, block)
+					log.Println("block ", block.BlockID, " received from node ", peerlist.Peerlist[i])
 				} else {
 					log.Println("invalid block received from peer ", peerlist.Peerlist[i])
 					break
 				}
+				localCount = db.GetCount(client)
 			}
 		}
 		if i == len(peerlist.Peerlist)-1 {

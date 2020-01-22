@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Page Title</title>
+
+
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
     <style>
-        .heading{
+                .heading{
            
             height:170px;
            
@@ -31,7 +38,7 @@
            
             margin:0 auto;
         }
-        #a {
+        .input {
         width: 100%;
         box-sizing: border-box;
         border: 2px solid tomato;
@@ -44,7 +51,7 @@
         background-repeat: no-repeat;
         padding: 12px 20px 12px 40px;
             }
-        #b{
+        .submit{
             
         position: relative;
         top:25px;
@@ -65,35 +72,20 @@
  
 
         }
-        #b:hover {
+        .submit:hover {
             color:white;
             background: tomato;
         }
-        </style>
-    
-<!--  make api call-->
-    <script>
-     
-        function setup(){
-            var api='localhost:8080/api/getBlock/';
-            var input; 
-            var button=document.getElementById('b');
-            input=document.getElementById('a');
-            var url =api+input.value;
-            console.log(url);  
-              
-        }
-          
+    </style>
+
+
  
         
+   
     
-    
-    
-    
-    </script>
+
 </head>
 <body>
-
     <div class="heading">
 
     <h1 class="t">VeriDoc</h1>
@@ -103,15 +95,28 @@
     <div class="search">
 <form>
     
-  <input id="a" type="text" name="search" placeholder="Search..">
-    <input onclick="setup()"id="b" type="submit">
+  <input class="input" type="text" name="search" placeholder="Search..">
+    <input class="submit" type="submit">
     
 </form>
        
         
     </div>
 
-         
 
 </body>
+<script>
+ 
+    let submit=document.querySelector(".submit")
+    
+    submit.addEventListener("click",(e)=>{
+        e.preventDefault();
+        let input=document.querySelector(".input");
+        let api='localhost:8080/api/getBlock/'
+        let url =api+input.value;
+        console.log(`this is the url ${url}`);
+
+    })
+    
+    </script>
 </html>

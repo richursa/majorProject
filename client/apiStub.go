@@ -22,6 +22,7 @@ type Block struct {
 
 func getBlock(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
+	log.Println("request received ")
 	blockID, err := strconv.ParseInt(vars["blockID"], 10, 64)
 	if err != nil {
 		log.Println("couldnt covert blockID to int", err)

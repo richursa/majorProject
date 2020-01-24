@@ -1,66 +1,172 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Page Title</title>
-    <style>
-        .heading{
-           
-            height:170px;
-           
-            position:relative;
-            top:0px;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 
-        .t{
-            font-size:60px;
-            color:tomato;
-            margin: 0px 0px;
-                top: 25px;
-            
-             font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
-            position:relative;
-            left:50px;
+<style>
+
+
+
+.container{
+            font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
         }
-        .search{
-            position:relative;
-            top:200px;
-            
-            width:700px;
-           
-            margin:0 auto;
-        }
-input[type=text] {
-  width: 100%;
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  font-size: 36px;
-  background-color: white;
-  background-image: url('images/searchicon.png');
-       background-size: 40px 40px;
-    background-position: 600px;
-  background-repeat: no-repeat;
-  padding: 12px 20px 12px 40px;
+.title
+{
+  
+    padding:20px 20px;
+    margin:15px 25px;
+    color: tomato;
+    font-size:25px;
+    }
+    .input{
+    border-radius: 6px;
+    height: 30px;
+    width:305px;
+    padding:5px 5px;
+    margin:2px;
+    border:2px solid tomato;
+
 }
 
-    </style>
+
+.button{
+   border-radius: 5px;
+  border: 2px solid tomato;
+  background-color: white;
+  color:tomato;
+  padding: 8px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+    transition: 0.5s linear;
+}    
+.button:hover{
+    background-color: tomato;
+    color: white;
+}   
+
+
+.inputbox{
+        /* background-color: blue; */
+        padding:20px 20px;
+    margin:75px 25px;
+    text-align: center;
+    height:130px;
+    
+    box-sizing: border-box;
+
+
+    }
+
+    .buttonbox{
+        
+        padding:5px 5px;
+    margin: 5px;
+    display:block
+    }
+    .output{
+margin:0 auto;
+height: 600px;
+width:600px;
+text-align: center;
+
+
+
+font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+
+    }
+    .output li{
+        list-style: none;
+        font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+      
+    }
+    .output ul{
+        text-align: center;
+        font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+    }
+
+
+</style>
+
+
 </head>
 <body>
+<div class="container">
+    <div class="title">VeriDoc</div>
 
-    <div class="heading">
-
-    <h1 class="t">VeriDoc</h1>
-
+    <div class="inputbox">
+        <form action=""><input type="text" class="input"placeholder="Search..."></form>
+        <div class="buttonbox">
+           <form action=""> <input type="submit" class="button"></form>
+        </div>
     
     </div>
-    <div class="search">
-        <form>
-  <input type="text" name="search" placeholder="Search..">
-</form>
-        
-    </div>
 
-         
 
+   <div class="output"></div>
+</div>
+
+   <script>
+   
+   let button=document.querySelector(".button");
+
+   button.addEventListener('click',callapi);
+
+   function callapi(e)
+   {
+//e.preventDefaul() is used for stopping the submit button from performing its action
+
+        e.preventDefault();
+        let url;
+       let api="http://localhost:8080/api/getBlock/"
+       let input=document.querySelector(".input");
+      
+       url=api+input.value;
+      
+
+       fetch(url,{
+        mode: 'no-cors' 
+       })
+       .then(function(res)
+       {
+
+     //if data is in json format use return res.json() instead of text
+     // console.log (res.text()); is used see the promise
+     //when fetching the data use return res.text();
+     //DO NOT USE console.log (res.text()); and return res.text(); together as it will result in an error
+           console.log (res.text());
+      
+       })
+       .then(function(data)
+       {
+           console.log(data);
+            
+    //    let result= `<h1>DATA</h1>`
+//if data is in json use a for loop and use . operator to access data in json
+        // data.forEach(function(block){
+
+        //     result+=`
+        //    <div>
+            
+        //     <p>name:${block.blockID}</p>
+        //     <p>age:${block.time}</p>
+        //     <p>name:${block.nodeID}</p>
+        //     <p>name:${block.hash}</p>
+        //     <p>name:${block.nonce}</p></div>`;
+
+
+        // })
+
+        // let output=document.querySelector(".output");
+        //to display the data 
+        // output.innerHTML=result;
+       })
+   }
+   
+   
+   </script> 
 </body>
 </html>

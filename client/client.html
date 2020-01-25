@@ -87,8 +87,12 @@ font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",s
         text-align: center;
         font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
     }
-
-
+.input:focus{
+    outline:none;
+}
+.button:focus{
+    outline:none;
+}
 </style>
 
 
@@ -98,7 +102,7 @@ font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",s
     <div class="title">VeriDoc</div>
 
     <div class="inputbox">
-        <form action=""><input type="text" class="input"placeholder="Search..."></form>
+        <form action=""><input type="text" class="input"placeholder="Search..." onfocus="this.value=``"></form>
         <div class="buttonbox">
          <button class="button">Submit</button>
         </div>
@@ -127,9 +131,7 @@ font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",s
        url=api+input.value;
       
 
-       fetch(url,{
-        mode: 'no-cors' 
-       })
+       fetch(url)
        .then(function(res)
        {
 

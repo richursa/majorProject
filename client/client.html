@@ -5,170 +5,192 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-
-<style>
-
-
-
-.container{
-            font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
-        }
-.title
-{
-  
-    padding:20px 20px;
-    margin:15px 25px;
-    color: tomato;
-    font-size:25px;
-    }
-    .input{
-    border-radius: 6px;
-    height: 30px;
-    width:305px;
-    padding:5px 5px;
-    margin:2px;
-    border:2px solid tomato;
-
-}
-
-
-.button{
-   border-radius: 5px;
-  border: 2px solid tomato;
-  background-color: white;
-  color:tomato;
-  padding: 8px 32px;
-  text-decoration: none;
-  margin: 4px 2px;
-  cursor: pointer;
-    transition: 0.5s linear;
-}    
-.button:hover{
-    background-color: tomato;
-    color: white;
-}   
-
-
-.inputbox{
-        /* background-color: blue; */
-        padding:20px 20px;
-    margin:75px 25px;
-    text-align: center;
-    height:130px;
     
-    box-sizing: border-box;
-
-
+<style>
+ 
+html,body{
+    margin: 0;
+      padding: 0; 
+}
+body{
+    background-color: rgb(30, 20, 65);
+}
+*{
+    margin: 0;
+      padding: 0;  
     }
-
-    .buttonbox{
-        
-        padding:5px 5px;
-    margin: 5px;
-    display:block
-    }
-    .output{
-margin:0 auto;
-height: 600px;
-width:600px;
-text-align: center;
-
-
-
-font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
-
-    }
-    .output li{
-        list-style: none;
-        font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+    .container{
+                font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+            }
+    .title
+    {
       
+        padding:20px 20px;
+       
+        color: tomato;
+        font-size:35px;
+        }
+        .input{
+        border-radius: 6px;
+        height: 30px;
+        width:305px;
+        padding:5px 5px;
+        margin:2px;
+        border: 4px solid rgb(219, 59, 30);
+ position: relative;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
     }
-    .output ul{
+    input:focus{
+        width:425px;
+        
+
+    }
+    
+    
+    .button{
+       border-radius: 5px;
+      border: 4px solid rgb(219, 59, 30);
+      background-color: rgb(255, 255, 255);
+      color:tomato;
+      padding: 8px 32px;
+      text-decoration: none;
+      margin: 4px 2px;
+      cursor: pointer;
+        transition: 0.2s linear;
+    }    
+    .button:hover{
+        background-color: tomato;
+        color: white;
+        padding:10px 35px;
+    }   
+    
+    
+    .inputbox{
+            /* background-color: blue; */
+            padding:20px 20px;
+        margin:75px 25px;
         text-align: center;
-        font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+        height:130px;
+        position: relative;
+        box-sizing: border-box;
+    
+    
+        }
+    
+        .buttonbox{
+            
+            padding:5px 5px;
+        margin: 5px;
+        display:block
+        }
+        .output{
+           /* background-color: aqua; */
+    
+    height: 600px;
+    width:600px;
+    /* padding:20px 20px; */
+    margin:10px;
+/* margin: auto; */
+    /* text-align: center; */
+    font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+
     }
-.input:focus{
-    outline:none;
+.output > p{
+
+    /* text-align: center; */
+    list-style: none;
+    margin:15px 20px;
+    padding:10px 16px;
+    font-weight: bolder;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: brown;
+    /* border:2px rgb(206, 69, 15) solid;
+    border-radius: 25px; */
+    font-size: large;
 }
-.button:focus{
-    outline:none;
+.output > h1 {
+    color: brown;
+    margin:10px 20px;
 }
-</style>
+    
+    .input:focus{
+        outline:none;
+    }
+    .button:focus{
+        outline:none;
+    }
 
 
+    </style>
+    
 </head>
 <body>
-<div class="container">
-    <div class="title">VeriDoc</div>
 
-    <div class="inputbox">
-        <form action=""><input type="text" class="input"placeholder="Search..." onfocus="this.value=``"></form>
-        <div class="buttonbox">
-         <button class="button">Submit</button>
+    <div class="container">
+       <nav> <div class="title">VeriDoc</div></nav>
+    
+        <div class="inputbox">
+            <form action=""><input type="text" class="input"placeholder="Search..."></form>
+            <div class="buttonbox">
+              <button class="button">submit</button>
+            </div>
+        
         </div>
     
+    
+       <div class="output"></div>
     </div>
+    <script>
+    let button=document.querySelector(".button");
+    button.addEventListener('click',callapi);
 
-
-   <div class="output"></div>
-</div>
-
-   <script>
-   
-   let button=document.querySelector(".button");
-
-   button.addEventListener('click',callapi);
-
-   function callapi()
-   {
-//e.preventDefaul() is used for stopping the submit button from performing its action
-
-     
+    function callapi(){
+        let api="http://localhost:8080/api/getBlock/"
+        input=document.querySelector(".input");
         let url;
-       let api="http://localhost:8080/api/getBlock/"
-       let input=document.querySelector(".input");
-      
-       url=api+input.value;
-      
+       
+        url=api+input.value;
 
-       fetch(url)
-       .then(function(res)
-       {
-
-     //if data is in json format use return res.json() instead of text
-     // console.log (res.text()); is used see the promise
-     //when fetching the data use return res.text();
-     //DO NOT USE console.log (res.text()); and return res.text(); together as it will result in an error
-           console.log (res.text());
-      
-       })
-       .then(function(data)
-       {
-           console.log(data);
+        console.log(url);
+        fetch(url)
+        .then(function(res){
+            return res.text();
+        }).then(function(data){
+            let blocks;
+            console.log(typeof(data));
+            blocks=JSON.parse(data);
+            console.log(typeof(blocks));
+            console.log(data);
+            console.log(blocks.blockID);
+            let result=`<h1>Block Information</h1>`;
+           
+                result+=`
+               
+                    <p>BlockID:   ${blocks.blockID}</p>
+                    <p>Time:      ${blocks.time}</p>
+                    <p>Data:      ${blocks.data}</p>
+                    <p>signature: ${blocks.signature}</p>
+                    <p>NodeId:    ${blocks.nodeID}</p>
+                    <p>Prev:      ${blocks.prev}</p>
+                    <p>Hash:      ${blocks.hash}</p>
+                    <p>Nonce:     ${blocks.nonce}</p>
+                    
+                
+                
+                `
             
-    //    let result= `<h1>DATA</h1>`
-//if data is in json use a for loop and use . operator to access data in json
-        // data.forEach(function(block){
-
-        //     result+=`
-        //    <div>
-            
-        //     <p>name:${block.blockID}</p>
-        //     <p>age:${block.time}</p>
-        //     <p>name:${block.nodeID}</p>
-        //     <p>name:${block.hash}</p>
-        //     <p>name:${block.nonce}</p></div>`;
+let output=document.querySelector(".output");
+output.style=`
 
 
-        // })
 
-        // let output=document.querySelector(".output");
-        //to display the data 
-        // output.innerHTML=result;
-       })
-   }
-   
-   
-   </script> 
+
+`;
+output.innerHTML=result;
+        })
+    }
+    
+    </script>
 </body>
 </html>

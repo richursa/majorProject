@@ -21,6 +21,7 @@ type Block struct {
 }
 
 func getBlock(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	vars := mux.Vars(r)
 	log.Println("request received ")
 	blockID, err := strconv.ParseInt(vars["blockID"], 10, 64)

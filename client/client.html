@@ -100,7 +100,7 @@ font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",s
     <div class="inputbox">
         <form action=""><input type="text" class="input"placeholder="Search..."></form>
         <div class="buttonbox">
-           <form action=""> <input type="submit" class="button"></form>
+         <button class="button">Submit</button>
         </div>
     
     </div>
@@ -115,11 +115,11 @@ font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",s
 
    button.addEventListener('click',callapi);
 
-   function callapi(e)
+   function callapi()
    {
 //e.preventDefaul() is used for stopping the submit button from performing its action
 
-        e.preventDefault();
+     
         let url;
        let api="http://localhost:8080/api/getBlock/"
        let input=document.querySelector(".input");

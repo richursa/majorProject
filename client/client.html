@@ -100,6 +100,7 @@ font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",s
     <div class="inputbox">
         <form action=""><input type="text" class="input"placeholder="Search..."></form>
         <div class="buttonbox">
+           <form action=""> < class="button"></form>
          <button class="button">Submit</button>
         </div>
     
@@ -108,11 +109,10 @@ font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",s
 
    <div class="output"></div>
 </div>
-
+   <script src="bundle.js"></script>
    <script>
    
    let button=document.querySelector(".button");
-
    button.addEventListener('click',callapi);
 
    function callapi()
@@ -121,7 +121,8 @@ font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",s
 
      
         let url;
-       let api="http://localhost:8080/api/getBlock/"
+       //let api="http://localhost:8080/api/getBlock/"
+       let api = "http://google.com"
        let input=document.querySelector(".input");
       
        url=api+input.value;

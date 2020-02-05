@@ -142,7 +142,7 @@ margin:0 auto;
     }
     .qroutput{
            /* background-color: aqua; */
-    border:1px black solid;
+    /* border:1px black solid; */
     height: 600px;
     width:600px;
     /* padding:20px 20px; */
@@ -204,7 +204,7 @@ transition: 0.5s cubic-bezier(0.18, 0.14, 0, 1.17);
 
 height:400px;
 width:400px;
-border:2px black solid;
+/* border:2px black solid; */
 margin: 0 auto;
 }
 .preview{
@@ -245,11 +245,11 @@ p:hover{
        <nav> <div class="title">VeriDoc</div></nav>
     
         <div class="inputbox">
-            <form action=""><input type="text" class="input"placeholder="Search..."></form>
+            <!-- <form action=""><input type="text" class="input"placeholder="Search..."></form>
             <div class="buttonbox">
               <button class="button">SUBMIT</button>
              
-            </div>
+            </div> -->
 
 
             <div class="buttonbox">
@@ -259,7 +259,7 @@ p:hover{
         </div>
     
     
-       <div class="output"></div>
+       <!-- <div class="output"></div> -->
     </div>
 
     <div class="qrcambox">
@@ -280,35 +280,14 @@ p:hover{
 function qrcode(){
       let scanner = new Instascan.Scanner({ video: document.querySelector('.preview') });
       scanner.addListener('scan', function (content) {
-
-       let qroutput=document.querySelector(".qroutput");
-        content=`<p>${content}</p>`;
-       qroutput.innerHTML=content;
-      });
-      Instascan.Camera.getCameras().then(function (cameras) {
-        if (cameras.length > 0) {
-          scanner.start(cameras[0]);
-        } else {
-          console.error('No cameras found.');
-        }
-      }).catch(function (e) {
-        console.error(e);
-      });
-    }
-
-    
-// function for search
-    let button=document.querySelector(".button");
-    button.addEventListener('click',callapi);
-
-    function callapi(){
-        let api="http://localhost:8080/api/getBlock/"
-        input=document.querySelector(".input");
+        console.log(content);
+        let api="http://localhost:8080/api/getBlock/";
         let url;
        
-        url=api+input.value;
+       url=api+content;
+       
 
-        console.log(url);
+       console.log(url);
         fetch(url)
         .then(function(res){
             return res.text();
@@ -336,16 +315,82 @@ function qrcode(){
                 
                 `
             
-let output=document.querySelector(".output");
-output.style=`
+let qroutput=document.querySelector(".qroutput");
+// output.style=`
 
 
 
 
-`;
-output.innerHTML=result;
+// `;
+qroutput.innerHTML=result;
         })
+
+
+    //    let qroutput=document.querySelector(".qroutput");
+    //     content=`<p>${content}</p>`;
+    //    qroutput.innerHTML=content;
+      });
+      Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+          scanner.start(cameras[0]);
+        } else {
+          console.error('No cameras found.');
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });
     }
+
+    
+// function for search
+//     let button=document.querySelector(".button");
+//     button.addEventListener('click',callapi);
+
+//     function callapi(){
+//         let api="http://localhost:8080/api/getBlock/"
+//         input=document.querySelector(".input");
+//         let url;
+       
+//         url=api+input.value;
+
+//         console.log(url);
+//         fetch(url)
+//         .then(function(res){
+//             return res.text();
+//         }).then(function(data){
+//             let blocks;
+//             console.log(typeof(data));
+//             blocks=JSON.parse(data);
+//             console.log(typeof(blocks));
+//             console.log(data);
+//             console.log(blocks.blockID);
+//             let result=`<h1>BLOCK INFORMATION</h1>`;
+           
+//                 result+=`
+               
+//                     <p>BlockID:   ${blocks.blockID}</p>
+//                     <p>Time:      ${blocks.time}</p>
+//                     <p>Data:      ${blocks.data}</p>
+//                     <p>Signature: ${blocks.signature}</p>
+//                     <p>NodeId:    ${blocks.nodeID}</p>
+//                     <p>Prev:      ${blocks.prev}</p>
+//                     <p>Hash:      ${blocks.hash}</p>
+//                     <p>Nonce:     ${blocks.nonce}</p>
+                    
+                
+                
+//                 `
+            
+// let output=document.querySelector(".output");
+// output.style=`
+
+
+
+
+// `;
+// output.innerHTML=result;
+//         })
+//     }
     
     </script>
 </body>

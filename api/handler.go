@@ -14,6 +14,7 @@ import (
 var client = db.GetClient()
 
 func getBlock(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	vars := mux.Vars(r)
 	blockID, err := strconv.ParseInt(vars["blockID"], 10, 64)
 	if err != nil {
@@ -30,6 +31,7 @@ func getBlock(w http.ResponseWriter, r *http.Request) {
 }
 
 func getCount(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Write([]byte(strconv.FormatInt(db.GetCount(client), 10)))
 }
 func Handler() {

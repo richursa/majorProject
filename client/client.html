@@ -281,11 +281,13 @@ function qrcode(){
       let scanner = new Instascan.Scanner({ video: document.querySelector('.preview') });
       scanner.addListener('scan', function (content) {
         console.log(content);
+        let qr_json = JSON.parse(content)
+
         let api="http://localhost:8080/api/getBlock/";
         let url;
        
-       url=api+content;
-       
+        url=api+qr_json['blockID'];
+        
 
        console.log(url);
         fetch(url)
@@ -298,6 +300,12 @@ function qrcode(){
             console.log(typeof(blocks));
             console.log(data);
             console.log(blocks.blockID);
+            if (qr_json["hash"] === blocks["hash"]){
+                var validation = "BLOCK HASH MATCH : BLOCK VALID"
+            }
+            else{
+                var validation = "BLOCK HASH MISMATCH : BLOCK INVALID"
+            }
             let result=`<h1>BLOCK INFORMATION</h1>`;
            
                 result+=`
@@ -310,7 +318,7 @@ function qrcode(){
                     <p>Prev:      ${blocks.prev}</p>
                     <p>Hash:      ${blocks.hash}</p>
                     <p>Nonce:     ${blocks.nonce}</p>
-                    
+                    <p>Validity:  ${validation}</p>
                 
                 
                 `
